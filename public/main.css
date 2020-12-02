@@ -1,0 +1,46 @@
+#skip-to-content a{ 
+    font-size: 10px;
+    position:absolute; 
+    left:-10000px; 
+    top:auto; 
+    width:10px; 
+    height:10px;
+    overflow:hidden;
+} 
+ 
+#skip-to-content a:focus { 
+    position:static; 
+    width:auto; 
+    height:auto; 
+}
+
+body {
+    font-size: 12px;
+    font-family: Arial;
+}
+
+.menu {
+    background-color: yellowgreen;
+    height: 50px;
+}
+
+header.menu ul,
+header.menu ul li {
+    padding: 0;
+    display: inline-block;
+}
+
+header.menu ul li a {
+    display: block;
+    padding: 0 10px;
+    line-height: 25px;
+    font-size: 2em;
+    text-decoration: none;
+    color: #fff;
+    margin: 0;
+}
+
+header.menu ul li a:hover  {
+    background-color: white;
+    color: green;
+}
