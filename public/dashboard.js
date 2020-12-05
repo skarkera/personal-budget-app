@@ -9,7 +9,7 @@ function HomePage() {
       let title = [];
       let budget = [];
   
-      axios.get(`http://localhost:3002/budget`).then((res) => {
+      axios.get(`http://localhost:3003/budget`).then((res) => {
         console.log(res);
         for (const dataObj of res.data.myBudget) {
           title.push(dataObj.title);

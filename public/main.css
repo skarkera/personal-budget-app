@@ -44,3 +44,9 @@ header.menu ul li a:hover  {
     background-color: white;
     color: green;
 }
+
+.bottom {
+    height: 30px;
+    background-color: yellowgreen;
+    padding: 20px;
+}
