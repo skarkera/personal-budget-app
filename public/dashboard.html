@@ -234,12 +234,11 @@ console.log("IN ADD BUDGET 1");
     }
             });
         }    
-
+        
         function getBudget(){
            let token = localStorage.getItem('jwt')
            axios.get('/budget', { headers: {"Authorization" : `Bearer ${token}`} })
             .then(function (res) {
-               // if(res.data.length ===){
                 console.log("dataFrombackend", res.data.data);
 
                 if (res && res.data && res.data.success) {

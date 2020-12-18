@@ -32,7 +32,7 @@
 }) */
 
 describe('My First Test', () => {
-  it('Visits the Kitchen Sink', () => {
+  it('Visits website', () => {
     cy.visit('http://localhost:5000')
   })
 })
