@@ -7,27 +7,40 @@
         <title>Personal Budget</title>
         <link rel="stylesheet" href="./main.css">
         <script src="https://d3js.org/d3.v4.min.js"></script>
+
+        <script>
+            function isLoggedIn(){
+                console.log(localStorage.getItem("jwt"))
+                if (localStorage.getItem("jwt") != null){
+                console.log("you are logged in")
+                document.getElementById("logged_in").style.display = "block"
+                } else{
+                    console.log("you are not logged in")
+                    document.getElementById("not_logged_in").style.display = "block"
+                }
+            }
+        </script> 
     </head>
 
 
-<body>
+<body onload="isLoggedIn()"> 
+    <div id="root"></div>
+<!--     <body>  -->
+    <div id='logged_in' style='display: none'>
+    Logged in 
+    
    <!-- This is an A11y Change -->
     <div id="skip-to-content"><a href="#maincontent">Skip to Main Content</a></div>
 
     <!-- This is a Semantic HTML Change -->
     <!-- This is an A11y Change -->
-    <header class="menu" role="Navigation Menu">
-            
+    <header class="menu" role="Navigation Menu">   
     <!-- This is a Semantic HTML Change -->
             <nav>
                 <ul>
-                    <li><a href="./login.html">Login</a></li>
-                    <li><a href="./logout.html">Logout</a></li>
                     <li><a href="./homepage.html">Homepage</a></li>
-                    <li><a href="./dashboard.html">Dashboard</a></li>
-                     <!-- This is an SEO Change -->
-                     <!-- Reference: https://www.greengeeks.com/blog/html-tags-for-seo/-->
-                   <!--  <li><a href="https://google.com" rel="nofollow">Google</a></li>-->
+                    <li><a href="/dashboard.html">Dashboard</a></li>
+                    <li><a href="./logout.html">Logout</a></li>
                 </ul>
             </nav>
         </header>
@@ -35,13 +48,16 @@
         <div class="title">
             <h1 class="row">Welcome!</h1>
         </div>
+        <div class="row">
+            <input type="hidden" name="username" id="username" value=username/>
+        </div><br>
 
         <main id="maincontent">
             <div class="page-area">
 
-                <!-- This is an A11y Change -->
+                <!-- A11y  -->
                 <div class="text-box" role="Textbox">
-                     <!-- This is an A11y Change -->
+                     <!-- A11y  -->
                     <h2>Stay on track</h2>
                     <p>
                         Do you know where you are spending your money? If you really stop to track it down,
@@ -50,9 +66,9 @@
                     </p>
                 </div>
 
-                <!-- This is an A11y Change -->
+                <!-- A11y -->
                 <div class="text-box" role="Textbox">
-                     <!-- This is an A11y Change -->
+                     <!-- A11y -->
                     <h2>Alerts</h2>
                     <p>
                         What if your clothing budget ended? You will get an alert. The goal is to never go over the
@@ -60,9 +76,9 @@
                     </p>
                 </div>
 
-                <!-- This is an A11y Change -->
+                <!-- A11y -->
                 <div class="text-box" role="Textbox">
-                     <!-- This is an A11y Change -->
+                     <!-- A11y -->
                     <h2>Results</h2>
                     <p>
                         People who stick to a financial plan, budgeting every expense, get out of debt faster!
@@ -71,17 +87,21 @@
                     </p>
                 </div>
 
-                 <!-- This is an A11y Change -->
+                 <!-- A11y -->
                 <div class="text-box" role="Textbox">
-                     <!-- This is an A11y Change -->
+                     <!-- A11y -->
                     <h2>Free</h2>
                     <p>
                         This app is free!!! And you are the only one holding your data!
                     </p>
                 </div>
             </div>
+        </main>
+        </div>
+    
 
-            <!-- This is an A11y Change -->
+        <div id="not_logged_in" style='display: none'> not logged in </div><br>
+            <!-- A11y -->
             <footer class = "bottom" role="Footer">
                 <div class="center">
                     All rights reserved &copy; Sabda Karkera
@@ -89,5 +109,4 @@
             </footer>
         
         </body> 
-     </main>
 </html>   

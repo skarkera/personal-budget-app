@@ -7,31 +7,32 @@
         <title>Personal Budget</title>
         <link rel="stylesheet" href="./main.css">
         <script src="https://d3js.org/d3.v4.min.js"></script>
+
+        <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
+        integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
+        crossorigin="anonymous"
+      ></script>
     </head>
 
 
 <body>
+  <div id="root"></div>
 
-    <!-- This is a Semantic HTML Change -->
-    <!-- This is an A11y Change -->
+    <!-- Semantic HTML  -->
+    <!-- A11y  -->
     <header class="menu" role="Navigation Menu">
             
-    <!-- This is a Semantic HTML Change -->
+    <!-- Semantic HTML  -->
             <nav>
                 <ul>
                     <li><a href="./login.html">Login</a></li>
-                    <li><a href="./logout.html">Logout</a></li>
-                    <li><a href="./homepage.html">Homepage</a></li>
-                    <li><a href="./dashboard.html">Dashboard</a></li>
-                     <!-- This is an SEO Change -->
-                     <!-- Reference: https://www.greengeeks.com/blog/html-tags-for-seo/-->
-                   <!--  <li><a href="https://google.com" rel="nofollow">Google</a></li>-->
                 </ul>
             </nav>
         </header>
 
         <div class="title">
-            <h1 class="row">Login</h1>
+            <h1 class="row">Login/Signup</h1>
 
               <div class="row">
                 <label for="username">Username</label>
@@ -43,20 +44,88 @@
                 <input type="password" name="password" id="password" />
               </div><br>
               
-                <button id="button1" value="Page1" onclick="login()">Login</button>
-                <button id="button2" value="Page2" onclick="getDashboard()">Get Dashboard</button>
-                <button id="button3" value="Page3" onclick="getSettings()">Get Homepage</button><br><br>
+                <button id="button1" value="Page1" onclick="getLogin()">Login</button>
+                <button id="button2" value="Page1" onclick="signUp()">Sign Up</button><br><br>
         
           </div>
 
 
         </div>
 
-            <!-- This is an A11y Change -->
+            <!--  A11y  -->
             <footer class = "bottom" role="Footer">
                 <div class="center">
                     All rights reserved &copy; Sabda Karkera
                 </div>
             </footer>
-        </body> 
-</html>   
+
+            <script>
+
+function getLogin(){
+  const data = {
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value,
+        };
+  console.log("1")
+  console.log(data);
+  axios.post("/login", data).then((res) => {
+        console.log(res);
+         document.getElementById("username").value = "";
+         document.getElementById("password").value = "";
+         console.log(res)
+
+         if (res && res.data && res.data.success) {
+           console.log(res);
+                    const token = res.data.token;
+                    localStorage.setItem("jwt", token);
+                    location.href = "/homepage.html";
+                  }
+                  else {
+                    alert("Username or Password is incorrect.");
+                  }
+     });
+ }
+
+var token = "";
+
+function signUp(){
+  const data = {
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value,
+        };
+  console.log("11")
+  console.log(data);
+
+  axios.post("/signup", data).then((res) => {
+    
+        console.log("i am here")
+        console.log(res);
+
+         document.getElementById("username").value = "";
+         document.getElementById("password").value = "";
+         console.log(res)
+
+         if (res && res.data && res.data.success) {
+           console.log(res);
+                    const token = res.data.token;
+                    localStorage.setItem("jwt", token);
+                    alert("Please login with new credentials to continue.");
+                    location.href = "/login.html";
+                  }
+                  else {
+                    alert("Username or Password is incorrect.");
+                  }
+     });
+ }
+
+    function ChangeUrl(page, url) {
+        if (typeof (history.pushState) != "undefined") {
+            var obj = { Page: page, Url: url };
+            history.pushState(obj, obj.Page, obj.Url);
+        } else {
+            alert("Browser does not support HTML5.");
+        }
+    }
+              </script>
+      </body>
+</html>

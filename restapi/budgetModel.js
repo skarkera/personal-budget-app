@@ -14,7 +14,15 @@ var budgetSchema = new Schema({
     type: String, 
     required: true,
   },
+  username: {
+    type: String, 
+    required: true,
+  },
+  expense: {
+    type: Number, 
+    required: true,
+  }
 
 }, {collection: 'budget_collection'});
 
-module.exports = mongoose.model("budget_collection", budgetSchema);
+ module.exports = mongoose.model("budget_collection", budgetSchema);

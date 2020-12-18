@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -47,22 +47,19 @@
 </head>
 
 
-<body>
-
-    <!-- This is a Semantic HTML Change -->
-    <!-- This is an A11y Change -->
+ <!--<body onload="addBudget()">-->
+    <body>
+        
+    <!-- Semantic HTML  -->
+    <!-- A11y  -->
     <header class="menu" role="Navigation Menu">
             
-    <!-- This is a Semantic HTML Change -->
+    <!-- Semantic HTML  -->
             <nav>
                 <ul>
-                    <li><a href="./login.html">Login</a></li>
-                    <li><a href="./logout.html">Logout</a></li>
                     <li><a href="./homepage.html">Homepage</a></li>
                     <li><a href="./dashboard.html">Dashboard</a></li>
-                     <!-- This is an SEO Change -->
-                     <!-- Reference: https://www.greengeeks.com/blog/html-tags-for-seo/-->
-                   <!--  <li><a href="https://google.com" rel="nofollow">Google</a></li>-->
+                    <li><a href="./logout.html">Logout</a></li>
                 </ul>
             </nav>
         </header>
@@ -72,19 +69,25 @@
         </div>
 
         <form>
-            <label for="budgetName">Add new budget:</label><br>
-            <input type="text" id="budgetName" name="budgetName"><br><br>
-            <label for="expense">Expense Amount per Month:</label><br>
+            <p>Add budget information here:</p>
+            <label for="title">Budget title:</label><br>
+            <input type="text" id="title" name="title"><br><br>
+            <label for="expense">Budget Amount:</label><br>
+            <input type="text" id="budget" name="budget"><br><br>
+            <label for="spent">Amount Spent:</label><br>
             <input type="text" id="expense" name="expense"><br><br>
-            <button id="button1" value="Page1" onclick="">Submit</button><br>
-          </form><br>
+            <button id="button1" value="Page1" onclick="addBudget()">Submit</button><br>
+        </form><br>
 
-        <!-- This is an A11y Change -->
+        <!-- A11y  -->
         <div class="text-box">
-            <!-- This is an A11y Change -->
+            <!-- A11y  -->
             <h2>Chart</h2>
                 <p>
                     <canvas id="myChart" width="400" height="400"></canvas>
+                    <canvas id="myChart3" width="400" height="400"></canvas>
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                    
                 </p>
         </div>
      </main>
@@ -96,161 +99,199 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
         <script>
-            var dataSource = {
+
+function addBudget(){
+console.log("IN ADD BUDGET 1");
+  const data = {
+          title: document.getElementById("title").value,
+          budget: document.getElementById("budget").value,
+          expense: document.getElementById("expense").value,
+          range: getRandomColorHex(),
+          username: ""
+        };
+        console.log("IN ADD BUDGET2");
+        console.log(data);
+        let token = localStorage.getItem('jwt')
+        axios.post('/budget', data, { headers: {"Authorization" : `Bearer ${token}`} })
+        .then(function (res) {
+            console.log(res);
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = ""; 
+            console.log(res);
+            console.log("IN ADD BUDGET3");
+         if (res && res.data && res.data.success) {
+            console.log("IN ADD BUDGET4");
+            console.log(res);
+                    location.href = "/dashboard.html";
+                  }
+                  else {
+                    alert("Invalid Entry.");
+                    console.log("fail");
+                    console.log(res);
+                  }
+     });
+ }
+ function getRandomColorHex() {
+    var hex = "0123456789ABCDEF",
+        color = "#";
+    for (var i = 1; i <= 6; i++) {
+      color += hex[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+        var dataSource = {
                 datasets: [
                     {
                     data: [],
-                    backgroundColor: [
-                        '#ffcd56',
+                    backgroundColor: [getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),]
+                       /*  [' #ffcd56',
                         '#ff6384',
                         '#36a2eb',
                         '#fd6b19',
                         '#7b6888',
                         '#6b486b',
-                        '#98abc5'
-                    ],
+                        '#98abc5' ] */
+                    ,
                  }
              ], 
              labels: []
         };
 
+        var dataSource2 = {
+            datasets: [
+                {
+                data: [],
+                backgroundColor:  [getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex(),
+                    getRandomColorHex()]
+                }
+            ],
+            labels: []
+        };
+
+        //pie chart
         function createChart(){
             var ctx = document.getElementById("myChart").getContext("2d");
             var myPieChart = new Chart(ctx, {
                 type: 'pie',
-                data: dataSource
+                data: dataSource,
+                 options: {
+                    title: {
+                    display: true,
+                    text: 'Budget Amount',
+                    fontSize: 30
+                    }
+                } 
             });
         }
 
+        //doughnut chart 
+        function createChart3(){
+            var ctx = document.getElementById("myChart3").getContext("2d");
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: dataSource,
+                 options: {
+                    title: {
+                    display: true,
+                    text: 'Budget Amount',
+                    fontSize: 30
+                    }
+                } 
+            });
+        }  
+
+        //bar chart 
+        function createChart2(){
+            var ctx = document.getElementById("myChart2").getContext("2d");
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: dataSource2,
+                options: {
+                    title: {
+                    display: true,
+                    text: 'Budget Amount Spent',
+                    fontSize: 30,
+        }
+    }
+            });
+        }    
+
         function getBudget(){
-           axios.get('http://localhost:5000/budgets')
+           let token = localStorage.getItem('jwt')
+           axios.get('/budget', { headers: {"Authorization" : `Bearer ${token}`} })
             .then(function (res) {
-                console.log(res);
-                console.log("CHART 1");
-                for(var i = 0; i < res.data.length; i ++) {
-                   dataSource.datasets[0].data[i] = res.data[i].budget;
-                 dataSource.labels[i] = res.data[i].title;
+               // if(res.data.length ===){
+                console.log("dataFrombackend", res.data.data);
+
+                if (res && res.data && res.data.success) {
+                    console.log("success");
+                    for(var i = 0; i < res.data.data.length; i ++) {
+                    //dataSource.data = res.data.data;
+                    dataSource.datasets[0].data[i] = res.data.data[i].budget;
+                    dataSource.labels[i] = res.data.data[i].title;
+                    console.log(res.data.data[i].title);
                 }
                 createChart();
+                createChart3();
+                  }
+                  else {
+                    console.log("fail");
+                    alert("Session has expired!");
+                    console.log(res);
+                   // const token = res.data.data.token;
+                   // localStorage.setItem("jwt", token);
+                    location.href = "/logout.html";
+                   
+                  }
             });
         }
         getBudget();
 
-        //donut chart
-        var dataSource1 = {
-                    range: [],
-                    data: [],
-                    labels: [],
-                    legendData: []
-                    };
+        function getBudget2(){
+           let token = localStorage.getItem('jwt')
+           axios.get('/budget', { headers: {"Authorization" : `Bearer ${token}`} })
+            .then(function (res) {
+                for(var i = 0; i < res.data.data.length; i ++) {
+                   // dataSource2.datasets[0].data[i] = res.data.data[i].budget;
+                    dataSource2.datasets[0].data[i] = res.data.data[i].expense;
+                    dataSource2.labels[i] = res.data.data[i].title;
+                    //dataSource2.legendData[i]= res.data.data[i].title + " : " + res.data.data[i].expense;
+                    console.log(res.data.data[i].expense);
+                }
+                createChart2();
+            });
 
-        var legendRectSize = 18;                                  
-        var legendSpacing = 4;                                    
+        }
+        getBudget2();     
+   
+</script>
 
-            function getBudgetData(){
-                axios.get('http://localhost:5000/budgets')
-                .then(function (res) {
-                    console.log(res);
-                    
-                    for(var i = 0; i < res.data.length; i++) {
-                        dataSource1.data[i] = res.data[i].budget;
-                        dataSource1.labels[i] = res.data[i].title;
-                        dataSource1.range[i]= res.data[i].range;
-                        dataSource1.legendData[i]= res.data[i].title + " : " + res.data[i].budget;
-                    }
-                    createChart1();
-                });
-            }
-            getBudgetData();
-        
-        function createChart1(){
-
-            var data = dataSource1.data;
-
-            console.log('dataSource1.data', dataSource1.data[0]);
-            console.log('data', data[0]);
-
-            var svg = d3.select("svg"),
-                width = svg.attr("width"),
-                height = svg.attr("height"),
-                radius = Math.min(width, height) / 2,
-                g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-            var color = d3.scaleOrdinal(dataSource1.range);
-
-            // Generate the pie
-            var pie = d3.pie();
-
-            // Generate the arcs
-            var arc = d3.arc()
-                        .innerRadius(50)
-                        .outerRadius(radius);
-
-            var label = d3.arc()
-                    .outerRadius(radius)
-                    .innerRadius(radius - 80);
-
-            //Generate groups
-            var arcs = g.selectAll("arc")
-                        .data(pie(data))
-                        .enter()
-                        .append("g")
-                        .attr("class", "arc")
-
-            //Draw arc paths
-            arcs.append("path")
-                .attr("fill", function(d, i) {
-                    return color(i);
-                })
-                .attr("d", arc);
-
-            arcs.append("text")
-                .attr("transform", function(d) { 
-                        return "translate(" + label.centroid(d) + ")"; 
-                })   
-                .text(function(d) { return dataSource1.labels[d]; });
-
-            svg.append("g")
-            .attr("transform", "translate(" + (width / 2 - 130) + "," + 15 + ")")
-            .append("text")
-            .text("Budget Data")
-            .attr("class", "title")
-
-          //create legend
-          var legend = svg.selectAll('.legend')                    
-          .data(dataSource1.legendData)                                  
-          .enter()                                            
-          .append('g')                                      
-          .attr('class', 'legend')                          
-          .attr('transform', function(d, i) {                    
-            var height = legendRectSize + legendSpacing;         
-            var offset =  height * color.domain().length / 2;     
-            var horz = 20 * legendRectSize;                  
-            var vert = i * height;                      
-            return 'translate(' + horz + ',' + vert + ')';      
-          });                                                     
-
-        legend.append('rect')                                     
-          .attr('width', legendRectSize)                       
-          .attr('height', legendRectSize)                         
-          .style('fill', color)                                   
-          .style('stroke', color);                            
-          
-        legend.append('text')                                   
-          .attr('x', legendRectSize + legendSpacing)            
-          .attr('y', legendRectSize - legendSpacing)             
-          .text(function(d) { return d; });    
-         }         
-        </script>
-
-    <!-- This is a Semantic HTML Change -->
-    <!-- This is an A11y Change -->
-               <!-- This is an A11y Change -->
+    <!-- Semantic HTML  -->
+    <!-- A11y  -->
+               <!--  A11y  -->
                <footer class = "bottom" role="Footer">
                 <div class="center">
                     All rights reserved &copy; Sabda Karkera
                 </div>
             </footer>
     </body> 
-
-</html> 
+</html>  
